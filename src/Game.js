@@ -44,7 +44,7 @@ export default class Game {
         this.player.update(deltaTime)
 
         // Antag att spelaren inte står på marken, tills vi hittar en kollision
-        this.player.isGrounded = false
+        // this.player.isGrounded = false
 
         // Kontrollera kollisioner med plattformar
         this.platforms.forEach(platform => {

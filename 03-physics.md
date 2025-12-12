@@ -10,7 +10,7 @@ I detta steg fokuserar vi på:
 - **Riktningsbaserad kollision** - Olika respons beroende på kollisionsriktning
 - **State management** - Hålla reda på om spelaren är på marken (isGrounded)
 - **Game feel** - Tweaka värden för bättre spelkänsla
-
+ 
 ## Översikt
 
 För att skapa ett fungerande plattformsspel behöver vi:

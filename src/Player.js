@@ -15,28 +15,44 @@ export default class Player extends GameObject {
         this.directionY = 0
 
         // Fysik egenskaper
-        this.jumpPower = -0.9 // negativ hastighet för att hoppa uppåt
+        this.jumpPower = -0.5 // negativ hastighet för att hoppa uppåt
         this.isGrounded = false // om spelaren står på marken
+        this.jumpCount = 0 // räknare för dubbelhopp
+        this.maxJumps = 2
+
+        // dash
+        this.dashSpeed = 
+        this.dashDuration = 
+        this.dashTimer = 
+        this.isDashing = false
+        this.canDash = 
+        this.facingDirection 
     }
 
     update(deltaTime) {
         // Horisontell rörelse
-        if (this.game.inputHandler.keys.has('ArrowLeft')) {
+        if (this.game.inputHandler.keys.has('a')) {
             this.velocityX = -this.moveSpeed
             this.directionX = -1
-        } else if (this.game.inputHandler.keys.has('ArrowRight')) {
+        } else if (this.game.inputHandler.keys.has('d')) {
             this.velocityX = this.moveSpeed
             this.directionX = 1
+        } else if (this.game.inputHandler.keys.has('j')) {
+            skip
         } else {
             this.velocityX = 0
             this.directionX = 0
         }
 
         // Hopp - endast om spelaren är på marken
-        if (this.game.inputHandler.keys.has(' ') && this.isGrounded) {
+        if (this.game.inputHandler.keys.has(' ') && this.jumpCount < this.maxJumps) {
+            this.game.inputHandler.keys.delete(' ') // förhindra kontinuerligt hopp när mellanslag hålls nere
             this.velocityY = this.jumpPower
-            this.isGrounded = false
+            this.jumpCount++
+        }  else if (this.isGrounded) {
+            this.jumpCount = 0 // återställ hopp räknaren när spelaren är på marken
         }
+        
 
         // Applicera gravitation
         this.velocityY += this.game.gravity * deltaTime

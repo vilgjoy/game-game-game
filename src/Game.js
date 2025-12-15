@@ -45,6 +45,8 @@ export default class Game {
             new Coin(this, 600, this.height - 200),
             new Coin(this, 380, this.height - 360),
             new Coin(this, 420, this.height - 360),
+            new Coin(this,400, 300, 25, 50, 'gold'),
+            new Coin(this, 300, 300, 20, 5, 'silver' )
         ]
 
         // Skapa andra objekt i spelet (valfritt)

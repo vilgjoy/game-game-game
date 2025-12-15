@@ -1,30 +1,45 @@
 import GameObject from './GameObject.js'
 
 export default class Coin extends GameObject {
-    constructor(game, x, y, size = 20, value = 10) {
+    constructor(game, x, y, size = 20, value = 10, color = 'yellow') {
         super(game, x, y, size, size)
         this.size = size
-        this.color = 'yellow'
-        this.value = value // Poäng för detta mynt
+        this.color = color
+        this.value = value
         
         // Bob animation
-        this.bobOffset = 0
-        this.bobSpeed = 0.006 // hur snabbt myntet gungar
-        this.bobDistance = 5 // hur långt upp/ner myntet rör sig
+        this.bobOffset = Math.random() * Math.PI * 2 // slumpa start så inte alla gungar exakt samtidigt (cool)
+        this.bobSpeed = 0.006 
+        this.bobDistance = 5 // fem pixlar upp coh ner
+
+        this.angle = 0
+        this.rotationSpeed = 0.05 
     }
 
     update(deltaTime) {
-        // Gungar myntet upp och ner
         this.bobOffset += this.bobSpeed * deltaTime
+        this.angle += this.rotationSpeed
     }
 
     draw(ctx) {
-        // Beräkna y-position med bob
         const bobY = Math.sin(this.bobOffset) * this.bobDistance
-        // Rita myntet som en cirkel
+
+        ctx.save()
+        
+        ctx.translate(this.x + this.size / 2, this.y + this.size / 2 + bobY)
+        
+        ctx.rotate(this.angle)
+        
         ctx.fillStyle = this.color
         ctx.beginPath()
-        ctx.arc(this.x + this.size / 2, this.y + this.size / 2 + bobY, this.size / 2, 0, Math.PI * 2)
+
+        ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2)
         ctx.fill()
+
+        // detalj för att se om det snurrar (ett "gläns"?)
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'
+        ctx.fillRect(-2, -this.size / 2, 4, this.size) // ett smalt streck i mitten
+
+        ctx.restore() //  återställ så inte resten av spelet roterar
     }
 }

@@ -21,27 +21,49 @@ export default class Player extends GameObject {
         this.maxJumps = 2
 
         // dash
-        this.dashSpeed = 
-        this.dashDuration = 
-        this.dashTimer = 
+        this.dashSpeed = 0.6
+        this.dashDuration = 200
+        this.dashTimer = 0
         this.isDashing = false
-        this.canDash = 
-        this.facingDirection 
+        this.canDash = true
+        this.facingDirection = 1 // 1 för höger, -1 för vänster
     }
 
     update(deltaTime) {
-        // Horisontell rörelse
         if (this.game.inputHandler.keys.has('a')) {
-            this.velocityX = -this.moveSpeed
-            this.directionX = -1
-        } else if (this.game.inputHandler.keys.has('d')) {
-            this.velocityX = this.moveSpeed
-            this.directionX = 1
-        } else if (this.game.inputHandler.keys.has('j')) {
-            skip
+            this.facingDirection = -1
+        }
+        if (this.game.inputHandler.keys.has('d')) {
+            this.facingDirection = 1
+        }
+
+        // starta dashen (så man kan dasha medans man går)
+        if (this.game.inputHandler.keys.has('j') && !this.isDashing && this.canDash) {
+            this.isDashing = true
+            this.canDash = false
+            this.dashTimer = this.dashDuration
+        }
+
+        if (this.isDashing) {
+            this.velocityX = this.facingDirection * this.dashSpeed
+            this.velocityY = 0 // inte faller när man dashar
+
+            this.dashTimer -= deltaTime
+            if (this.dashTimer <= 0) {
+                this.isDashing = false
+                this.velocityX = 0
+            }
         } else {
-            this.velocityX = 0
-            this.directionX = 0
+            if (this.game.inputHandler.keys.has('a')) {
+                this.velocityX = -this.moveSpeed
+                this.directionX = -1
+            } else if (this.game.inputHandler.keys.has('d')) {
+                this.velocityX = this.moveSpeed
+                this.directionX = 1
+            } else {
+                this.velocityX = 0
+                this.directionX = 0
+            }
         }
 
         // Hopp - endast om spelaren är på marken
@@ -49,8 +71,10 @@ export default class Player extends GameObject {
             this.game.inputHandler.keys.delete(' ') // förhindra kontinuerligt hopp när mellanslag hålls nere
             this.velocityY = this.jumpPower
             this.jumpCount++
+            this.isGrounded = false
         }  else if (this.isGrounded) {
             this.jumpCount = 0 // återställ hopp räknaren när spelaren är på marken
+            this.canDash = true // can dasha när du landar igen
         }
         
 

@@ -10,7 +10,7 @@ export default class UserInterface {
     draw(ctx) {
         ctx.save()
         
-        // Konfigurera text
+        // Konfigurera tex
         ctx.font = `${this.fontSize}px ${this.fontFamily}`
         ctx.fillStyle = this.textColor
         ctx.shadowColor = this.shadowColor

@@ -24,7 +24,7 @@ export default class Coin extends GameObject {
     draw(ctx) {
         const bobY = Math.sin(this.bobOffset) * this.bobDistance
 
-        ctx.save()
+        ctx.save() // fryser nuvarande sak, så man kan rotera bara myntet
         
         ctx.translate(this.x + this.size / 2, this.y + this.size / 2 + bobY)
         

@@ -16,7 +16,7 @@ export default class Game {
 
         // Game state
         this.ePressed = false 
-        this.gameState = 'PLAYING' // PLAYING, GAME_OVER, WIN
+        this.gameState = 'TITLE' // PLAYING, GAME_OVER, WIN, TITLE
         this.score = 0
         this.coinsCollected = 0
         this.totalCoins = 0 // Sätts när vi skapar coins
@@ -31,7 +31,6 @@ export default class Game {
     init() {
         this.ePressed = false
         // Återställ game state
-        this.gameState = 'PLAYING'
         this.score = 0
         this.coinsCollected = 0
 
@@ -96,6 +95,14 @@ export default class Game {
     }
 
     update(deltaTime) {
+        if (this.gameState === 'TITLE') {
+            if (this.inputHandler.keys.has('Enter') || this.inputHandler.keys.has(' ')) {
+                this.gameState = 'PLAYING'
+            }
+            return
+        }
+
+
         if (this.gameState === 'WATERING') {
             this.plant.update(deltaTime)
 
@@ -220,6 +227,24 @@ export default class Game {
     }
 
     draw(ctx) {
+        if (this.gameState === 'TITLE') {
+            ctx.fillStyle = 'black'
+            ctx.fillRect(0, 0, this.width, this.height)
+
+            ctx.fillStyle = 'white'
+            ctx.textAlign = 'center'
+            ctx.font = '48px Arial'
+            ctx.fillText('GROWING PAINS', this.width / 2, 180)
+
+            ctx.font = '16px Arial'
+            ctx.fillText('A tiny seed will eventually grow beyond heavenly heights.', this.width / 2, 220)
+
+            if (Math.floor(Date.now() / 500) % 2 === 0) {
+                ctx.font = '20px Arial'
+                ctx.fillText('PRESS ENTER TO START', this.width / 2, 300)
+            }
+            return
+        }
         // Rita alla plattformar
         this.platforms.forEach(platform => platform.draw(ctx))
         

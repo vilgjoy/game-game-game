@@ -17,7 +17,7 @@ export default class Enemy extends GameObject {
         this.speed = 0.1
         this.direction = 1 // 1 = höger, -1 = vänster
         
-        this.damage = 1 // Hur mycket skada fienden gör
+        this.damage = 20 // Hur mycket skada fienden gör
     }
 
     update(deltaTime) {

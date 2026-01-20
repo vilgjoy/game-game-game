@@ -23,7 +23,7 @@ export default class Player extends GameObject {
         this.health = this.maxHealth
         this.invulnerable = false // Immun mot skada efter att ha blivit träffad
         this.invulnerableTimer = 0
-        this.invulnerableDuration = 1000 // 1 sekund i millisekunder
+        this.invulnerableDuration = 0// 0 för att inte vara invulnerable alls
     }
 
     update(deltaTime) {
